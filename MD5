@@ -1,7 +1,6 @@
-c2781ca2f39b902503d871f8971481e8 *DESCRIPTION
-51eb3903c5d324ce868a8f32b0495f06 *NAMESPACE
-d7dba9cd645202654a529ab9e780cfd2 *R/DPdensityLIO.R
-447cf13e1ead2e819240917d480f9b41 *R/RcppExports.R
+b8127a0902fbe10a996f923422b8b92d *DESCRIPTION
+7d92e7cc598657bf96f8ea7acc314f8e *NAMESPACE
+aec48a9c30eae9f8c64dd754cc72f597 *R/RcppExports.R
 56ffa68a3003aae455d30495a5bd2f8e *R/basic.R
 13dfd252c3553f2675da31adfccfa7f6 *R/compdpm.R
 3d15176920a98e5bca438bc1fb345f21 *R/compreg.R
@@ -18,7 +17,6 @@ da23c99b3a6ee467cfadc5301a6f6879 *man/continue.ddpcomp.Rd
 35468cd4f939444d20a33fad102756d9 *man/continue.dpm.Rd
 6a40b6e495cdd9771eb3dca66597638d *man/continue.dpmcomp.Rd
 24a3ce765cd38ea9cea356774680d34a *man/dpweib.Rd
-5b10541c4ab0373d586b629ac42d0eef *man/normwrapper.Rd
 69a362eb7c1762db6b326dc715ee1d68 *man/plot.ddp.Rd
 02174e7ee30967ce9a4776c58766c565 *man/plot.ddpcomp.Rd
 43e5029c87370b15fc2b3ae71c6169a9 *man/plot.dpm.Rd
