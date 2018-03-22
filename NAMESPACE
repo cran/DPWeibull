@@ -14,7 +14,7 @@ importFrom(stats,rgamma)
 importFrom(stats,sd)
 importFrom(stats,qchisq)
 importFrom(truncdist,rtrunc)
-
+importFrom(DPpackage,DPdensity)
 importFrom(matrixStats,colMedians)
 importFrom(matrixStats,colQuantiles)
 

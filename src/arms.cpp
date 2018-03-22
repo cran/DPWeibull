@@ -107,9 +107,8 @@ int arms_simple (int ninit, double *xl, double *xr,
 /* *xsamp       : to store sampled value */
 
 {
-double *xinit;
-xinit=(double *) malloc(ninit);
-  double convex=1.0, qcent, xcent;
+double* xinit=new double[ninit];
+    double convex=1.0, qcent, xcent;
   int err, i, npoint=100, nsamp=1, ncent=0, neval; 
  
   /* set up starting values */
@@ -119,7 +118,7 @@ xinit=(double *) malloc(ninit);
 
   err = arms(xinit,ninit,xl,xr,myfunc,mydata,&convex,npoint,dometrop,xprev,xsamp,
              nsamp,&qcent,&xcent,ncent,&neval);
-free(xinit);
+    delete[] xinit;
   return err;
 }
 

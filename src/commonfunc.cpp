@@ -5,7 +5,7 @@
 #include <math.h>
 #include <Rcpp.h>
 
-#include "arms.c"
+#include "arms.h"
 
 using namespace Rcpp ;
 
