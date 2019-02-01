@@ -20,6 +20,7 @@ importFrom(matrixStats,colQuantiles)
 
 export(dpweib)
 export(continue)
+export(normwrapper)
 S3method(continue,ddp)
 S3method(continue,ddpcomp)
 S3method(continue,dpm)

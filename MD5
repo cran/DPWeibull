@@ -1,5 +1,5 @@
-61ed184d216a3e0990be863e9d0858c6 *DESCRIPTION
-ac0398c2d92b1da0b98f79f83383ac35 *NAMESPACE
+ae0452ee5072b51e607897fb0f87cbbd *DESCRIPTION
+b6db9143f42474fa312e962bc551b5f4 *NAMESPACE
 d7dba9cd645202654a529ab9e780cfd2 *R/DPdensityLIO.R
 447cf13e1ead2e819240917d480f9b41 *R/RcppExports.R
 56ffa68a3003aae455d30495a5bd2f8e *R/basic.R
@@ -35,11 +35,11 @@ b88d728de2e49fd4daabfb0a38d509ba *man/summary.ddp.Rd
 dc050e7a485ed2b578200a8b8602eeab *man/summary.predddpcomp.Rd
 e1531bc301703531070a75dd41d9099f *man/survmedian.Rd
 212f9dd2216a61f524cd15b2099e7ffb *src/RcppExports.cpp
-9bbdb936dcb81cc8066756f3f2990805 *src/arms.cpp
+b4ca476a8f4b7f32a67a8ce0f00cde5d *src/arms.c
 6a6d2e9b6e6b8f9d67469ae0fdee95d1 *src/arms.h
 052d84cbf7c8abad47ad7eb5b97cc5be *src/auxfuns.cpp
 a9d3026dda57198b85b8f38e5f1f9204 *src/auxfuns.h
-b3db4e1d2bccb017c83010d1a0af56e1 *src/commonfunc.cpp
+8e6288f4f60d56fea7122096b9dddfd6 *src/commonfunc.cpp
 4006a3615f7707b03685cbc8c2c11276 *src/commonfunc.h
 3b974dac660e8adfad5e87d7a44a1adb *src/compnoreg.cpp
 0f1a3bbc6f1e8e4e567e93b16c12030c *src/compnoreg.h
