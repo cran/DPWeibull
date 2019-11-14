@@ -196,17 +196,17 @@ When simultaneous is specified TRUE, the function also provides
 
 
 \source{
-Gilks,W.R. and Best,N.G. and Tan,K.K.C. (1995) Adaptive rejection Metropolis sampling within Gibbs sampling, \emph{Applied Statistics}, 455-472
+Gilks,W.R. and Best,N.G. and Tan,K.K.C. (1995) Adaptive rejection Metropolis sampling within Gibbs sampling, \emph{Applied Statistics}, 455-472 doi:10.2307/2986138
 
-Neal,R.M (2000) Markov chain sampling methods for Dirichlet process mixture models,\emph{Journal of computational and graphical statistics}, \bold{9}, Num 2, 249-265
+Neal,R.M (2000) Markov chain sampling methods for Dirichlet process mixture models,\emph{Journal of computational and graphical statistics}, \bold{9}, Num 2, 249-265 doi: 10.1080/10618600.2000.10474879
 
-Kottas,A. (2006) Nonparametric Bayesian survival analysis using mixtures of Weibull distributions, \emph{Journal of Statistical Planning and Inference}, \bold{136}, Num 3, 578-596
+Kottas,A. (2006) Nonparametric Bayesian survival analysis using mixtures of Weibull distributions, \emph{Journal of Statistical Planning and Inference}, \bold{136}, Num 3, 578-596 doi: 10.1016/j.jspi.2004.08.009
 
-Shi,Y. and Martens,M. and Banerjee,A. and Laud,P. (2017) Low Information Omnibus Priors for Dirichlet Process Mixture Models(Manuscript)
+Shi, Y. Martens, M., Banerjee, A. and Laud, P. (2019) Low Information Omnibus (LIO) Priors for Dirichlet Process Mixture Models. \emph{Bayesian Anal.} \bold{14}, Num 3, 677-702. doi:10.1214/18-BA1119. https://projecteuclid.org/euclid.ba/1560240023
 
-Shi,Y. and Laud,P. and Neuner,J (2017) A Dependent Dirichlet Process Model for Time-to-event Data (Manuscript)
+Shi,Y. and Laud,P. and Neuner,J (2017) A Dependent Dirichlet Process Model for Survival DataWith
+Competing Risks (Submitted)
 
-Shi,Y. and Laud,P. and Neuner,J (2017) A Dependent Dirichlet Process Model for Competing Risks Data with an Application to a Breast Cancer Study (Manuscript)
 }
 
 

@@ -74,7 +74,7 @@ int reg_group_assign(const double tl, const double tr,
 	NumericVector logprob(allbaskets[0]+addcluster);
 	for (int j = 0; j<(allbaskets[0]+addcluster); j++){
 			logprob[j] = reg_loglikelihood(tl,tr,delta,pi,lambdavector[j], alphavector[j],x,betamatrix(j,_));
-		if(!testreal(logprob[j])){logprob[j]=-pow(100.0,100.0);}
+		//if(!testreal(logprob[j])){logprob[j]=-pow(100.0,100.0);}
 	}
         logprob=logprob-max(logprob);
 	NumericVector prob=abs(exp(logprob)*nmvector);
@@ -236,11 +236,13 @@ for(int covnum=0; covnum<x.ncol();covnum++){
 		S2(i,j)=temps2/tl.size();
 		d2(i,j)=tempd2/tl.size();
 		h2(i,j)=d2(i,j)/S2(i,j);
-	    	loghr(i,j+covnum*time.size())=log(h1(i,j))-log(h2(i,j));		
+	    loghr(i,j+covnum*time.size())=log(d1(i,j))-log(S1(i,j))
+			-log(d2(i,j))+log(S2(i,j));				
 		}
 	  }
 }
 	return List::create(
+			 Named("nu")=nu,
 	 Named("c")=c,
 	 Named("nm")=nm,
 	Named("loghr")=loghr,
@@ -337,11 +339,13 @@ for(int covnum=0; covnum<x.ncol();covnum++){
 		S2(i,j)=temps2/tl.size();
 		d2(i,j)=tempd2/tl.size();
 		h2(i,j)=d2(i,j)/S2(i,j);
-	    	loghr(i,j+covnum*time.size())=log(h1(i,j))-log(h2(i,j));		
+	    loghr(i,j+covnum*time.size())=log(d1(i,j))-log(S1(i,j))
+			-log(d2(i,j))+log(S2(i,j));		
 		}
 	  }
 }
 	return List::create(
+	 Named("nu")=nu,
 	 Named("c")=c,
 	 Named("nm")=nm,
 	Named("loghr")=loghr,

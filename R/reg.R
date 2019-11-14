@@ -27,7 +27,12 @@ reg<-function(tl,tr,event,x,high.pct,tpred,indicator,
       alpha[i]<-80
     }
   }
+  if(is.vector(x)){
+    x<-matrix(x,ncol=1)
+  }
+  #print(str(x))
   beta<-rtrunc(npts*ncol(x), spec="cauchy", a = -10, b =10, location=0.0,scale=betasl)
+  #print(str(beta))
   beta<-matrix(beta,ncol=ncol(x))
   
   tl<-tl/high.pct*10

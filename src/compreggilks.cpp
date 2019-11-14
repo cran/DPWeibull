@@ -29,7 +29,7 @@ double temp = 0.0;
 			 if(d->delta[i]==1){
 				 temp+=logf1v2(d->t[i],d->p,d->alpha1, exp(loglambda), d->xbeta1[i]);
 			 }else if(d->delta[i]==2){
-				 temp=temp;
+				 temp=temp*1.0;
 			 }else{
 				 temp+=logScomp(d->t[i],d->alpha1,exp(loglambda),
 				 d->alpha2,d->lambda2,d->xbeta1[i],d->xbeta2[i],d->p);
@@ -85,7 +85,7 @@ double temp = 0.0;
 	for (int i = 0; i<(d->size); i++){
 		if((testreal(temp))&&(abs(temp)>=0.0)){
 			 if(d->delta[i]==1){
-				 temp=temp;
+				 temp=temp*1.0;
 			 }else if(d->delta[i]==2){
 				 temp+=logf2v2(d->t[i],d->p,d->alpha2,exp(loglambda), d->xbeta1[i],d->xbeta2[i]);
 			 }else{
@@ -147,7 +147,7 @@ double compreg_logdalpha1(double alpha, void* alpha1_data){
 			 if(d->delta[i]==1){
 				 temp+=logf1v2(d->t[i],d->p,alpha,d->lambda1,d->xbeta1[i]);
 			 }else if(d->delta[i]==2){
-				 temp=temp;
+				 temp=temp*1.0;
 			 }else{
 				 temp+=logScomp(d->t[i],alpha,d->lambda1,
 				 d->alpha2,d->lambda2,d->xbeta1[i],d->xbeta2[i],d->p);
@@ -204,7 +204,7 @@ double compreg_logdalpha2(double alpha, void* alpha2_data){
 	for (int i = 0; i<(d->size); i++){
 		if((testreal(temp))&&(abs(temp)>=0.0)){
 			 if(d->delta[i]==1){
-				 temp=temp;
+				 temp=temp*1.0;
 			 }else if(d->delta[i]==2){
 				 temp+=logf2v2(d->t[i],d->p,alpha,d->lambda2, d->xbeta1[i],d->xbeta2[i]);
 			 }else{
@@ -377,7 +377,7 @@ double compreg_logdbeta2(double beta, void* beta2_data){
 	for (int i = 0; i<(d->size); i++){
 	if((testreal(temp))&&(abs(temp)>=0.0)){
 		if(d->delta[i]==1){
-			temp=temp;
+			temp=temp*1.0;
 		}else if(d->delta[i]==2){
 			temp+=logf2v2(d->t[i],d->p,d->alpha2,d->lambda2, 
 			d->xbeta1[i],d->xbeta2left[i]+d->x[i]*beta);

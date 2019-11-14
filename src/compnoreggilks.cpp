@@ -28,7 +28,7 @@ double temp = 0.0;
 			 if(d->delta[i]==1){
 				 temp+=logdWeibloglambda(d->t[i],d->alpha1,loglambda);
 			 }else if(d->delta[i]==2){
-				 temp=temp;
+				 temp=temp*1.0;
 			 }else{
 				 if((d->p)*pWeib(d->t[i],d->alpha1,exp(loglambda))
 					 +(1.0-d->p)*pWeib(d->t[i],d->alpha2,d->lambda2)<1.0){
@@ -87,7 +87,7 @@ double compnoreg_logdalpha(double alpha, void* alpha_data){
 			 if(d->delta[i]==1){
 				 temp+=logdWeib(d->t[i],alpha,d->lambda1);
 			 }else if(d->delta[i]==2){
-				 temp=temp;
+				 temp=temp*1.0;
 			 }else{
 				 if((d->p)*pWeib(d->t[i],alpha,d->lambda1)
 					 +(1.0-d->p)*pWeib(d->t[i],d->alpha2,d->lambda2)<1.0){

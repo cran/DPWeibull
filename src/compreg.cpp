@@ -335,7 +335,8 @@ List compreg(const int burnin, const int iteration,
 		S2(i,j)=temps2/t.size();
 		d2(i,j)=tempd2/t.size();
 		h2(i,j)=d2(i,j)/S2(i,j);
-	    	loghr(i,j+covnum*tplot.size())=log(h1(i,j))-log(h2(i,j));	
+	    	loghr(i,j+covnum*tplot.size())=log(d1(i,j))-log(S1(i,j))
+			-log(d2(i,j))+log(S2(i,j));	
 		}
 	  }
 }
@@ -470,7 +471,8 @@ List compreg_resume(const int burnin, const int iteration,
 		S2(i,j)=temps2/t.size();
 		d2(i,j)=tempd2/t.size();
 		h2(i,j)=d2(i,j)/S2(i,j);
-	    	loghr(i,j+covnum*tplot.size())=log(h1(i,j))-log(h2(i,j));	
+	    	loghr(i,j+covnum*tplot.size())=log(d1(i,j))-log(S1(i,j))
+			-log(d2(i,j))+log(S2(i,j));	
 		}
 	  }
 }

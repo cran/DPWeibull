@@ -87,7 +87,7 @@ if((max(event)>1)|(comp==TRUE)){
 	class(z)<-"dpmcomp"
     }
     else {
-        x<-x[,-1]
+      x<-matrix(x[,-1],nrow=nrow(x))
 	z <- compreg(tevent,event,x,high.pct,predtime,indicator[-1],burnin,iteration,
                   alpha00, alpha0,lambda00,
                   alphaalpha,alphalambda,a,b,
@@ -124,7 +124,7 @@ if((max(event)>1)|(comp==TRUE)){
 	}    
 	}
     else {
-        x<-x[,-1]
+      x<-matrix(x[,-1],nrow=nrow(x))
 
         z <- reg(tl,tr,event,x,high.pct,predtime, indicator[-1],burnin,iteration,
                   alpha00,alpha0,lambda00,
@@ -153,4 +153,3 @@ source("R/continue.R")
 source("R/pred.R")
 source("R/summary.R")
 source("R/plot.R")
-source("R/DPdensityLIO.R")

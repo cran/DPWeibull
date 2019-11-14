@@ -8,6 +8,9 @@ compreg<-function(t,event,x,high.pct,predtime,indicator,
                   gamma0=1,gamma1=1,
                   addgroup=2,
                   thin=10, betasl=2.5){
+  if(is.vector(x)){
+    x<-matrix(x,ncol=1)
+  }
   npts<-length(t)
   c<-rep(1,npts)
   nm<-c(npts,rep(0,npts-1))
