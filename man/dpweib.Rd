@@ -135,10 +135,10 @@ For dpmcomp output, it has
 \item{CIF1u}{a vector, the estimated pointwise upper credible interval for cumulative incidence function of cause 1 at specified time points}
 \item{CIF1l}{a vector, the estimated pointwise lower credible interval for cumulative incidence function of cause 1 at specified time points}
 
-\item{d1}{a matrix, the estimated subdistribution density function for cause 1 for each saved iteration, the columns correspond to time points, the rows correspond to saved iterations}
-\item{d1.est}{a vector, the estimated subdistribution density function of cause 1 at specified time points}
-\item{d1u}{a vector, the estimated pointwise upper credible interval for subdistribution density function of cause 1 at specified time points}
-\item{d1l}{a vector, the estimated pointwise lower credible interval for subdistribution density function of cause 1 at specified time points}
+\item{d1}{a matrix, the estimated cause-specific density function for cause 1 for each saved iteration, the columns correspond to time points, the rows correspond to saved iterations}
+\item{d1.est}{a vector, the estimated cause-specific density function of cause 1 at specified time points}
+\item{d1u}{a vector, the estimated pointwise upper credible interval for cause-specific density function of cause 1 at specified time points}
+\item{d1l}{a vector, the estimated pointwise lower credible interval for cause-specific density function of cause 1 at specified time points}
 
 \item{h1}{a matrix, the estimated subdistribution hazard function for cause 1 at specified time points, the columns correspond to time points, the rows correspond to saved iterations}
 \item{h1.est}{a vector, the estimated subdistribution hazard function of cause 1 at specified time points}
@@ -150,10 +150,10 @@ For dpmcomp output, it has
 \item{CIF2u}{a vector, the estimated pointwise upper credible interval for cumulative incidence function of cause 2 at specified time points}
 \item{CIF2l}{a vector, the estimated pointwise lower credible interval for cumulative incidence function of cause 2 at specified time points}
 
-\item{d2}{a matrix, the estimated subdistribution density function for cause 2 for each saved iteration, the columns correspond to time points, the rows correspond to saved iterations}
-\item{d2.est}{a vector, the estimated subdistribution density function of cause 2 at specified time points}
-\item{d2u}{a vector, the estimated pointwise upper credible interval for subdistribution density function of cause 2 at specified time points}
-\item{d2l}{a vector, the estimated pointwise lower credible interval for subdistribution density function of cause 2 at specified time points}
+\item{d2}{a matrix, the estimated cause-specific density function for cause 2 for each saved iteration, the columns correspond to time points, the rows correspond to saved iterations}
+\item{d2.est}{a vector, the estimated cause-specific density function of cause 2 at specified time points}
+\item{d2u}{a vector, the estimated pointwise upper credible interval for cause-specific density function of cause 2 at specified time points}
+\item{d2l}{a vector, the estimated pointwise lower credible interval for cause-specific density function of cause 2 at specified time points}
 
 \item{h2}{a matrix, the estimated subdistribution hazard function for cause 2 for each saved iteration, the columns correspond to time points, the rows correspond to saved iterations}
 \item{h2.est}{a vector, the estimated subdistribution hazard function of cause 2 at specified time points}
@@ -163,14 +163,14 @@ For dpmcomp output, it has
 When simultaneous is specified TRUE, the function also provides
 \item{CIF1bandu}{a vector, the estimated simultaneous upper credible interval for cumulative incidence function of cause 1 at specified time points}
 \item{CIF1bandl}{a vector, the estimated simultaneous lower credible interval for cumulative incidence function of cause 1 at specified time points}
-\item{d1bandu}{a vector, the estimated simultaneous upper credible interval for subdistribution density function of cause 1 at specified time points}
-\item{d1bandl}{a vector, the estimated simultaneous lower credible interval for subdistribution density function of cause 1 at specified time points}
+\item{d1bandu}{a vector, the estimated simultaneous upper credible interval for cause-specific density function of cause 1 at specified time points}
+\item{d1bandl}{a vector, the estimated simultaneous lower credible interval for cause-specific density function of cause 1 at specified time points}
 \item{h1bandu}{a vector, the estimated simultaneous upper credible interval for subdistribution hazard function of cause 1 at specified time points}
 \item{h1bandl}{a vector, the estimated simultaneous lower credible interval for subdistribution hazard function of cause 1 at specified time points}
 \item{CIF2bandu}{a vector, the estimated simultaneous upper credible interval for cumulative incidence function of cause 2 at specified time points}
 \item{CIF2bandl}{a vector, the estimated simultaneous lower credible interval for cumulative incidence function of cause 2 at specified time points}
-\item{d2bandu}{a vector, the estimated simultaneous upper credible interval for subdistribution density function of cause 2 at specified time points}
-\item{d2bandl}{a vector, the estimated simultaneous lower credible interval for subdistribution density function of cause 2 at specified time points}
+\item{d2bandu}{a vector, the estimated simultaneous upper credible interval for cause-specific density function of cause 2 at specified time points}
+\item{d2bandl}{a vector, the estimated simultaneous lower credible interval for cause-specific density function of cause 2 at specified time points}
 \item{h2bandu}{a vector, the estimated simultaneous upper credible interval for subdistribution hazard function of cause 2 at specified time points}
 \item{h2bandl}{a vector, the estimated simultaneous lower credible interval for subdistribution hazard function of cause 2 at specified time points}
 
@@ -204,7 +204,7 @@ Kottas,A. (2006) Nonparametric Bayesian survival analysis using mixtures of Weib
 
 Shi, Y. Martens, M., Banerjee, A. and Laud, P. (2019) Low Information Omnibus (LIO) Priors for Dirichlet Process Mixture Models. \emph{Bayesian Anal.} \bold{14}, Num 3, 677-702. doi:10.1214/18-BA1119. https://projecteuclid.org/euclid.ba/1560240023
 
-Shi,Y. and Laud,P. and Neuner,J (2017) A Dependent Dirichlet Process Model for Survival DataWith
+Shi,Y. and Laud,P. and Neuner,J (2019) A Dependent Dirichlet Process Model for Survival DataWith
 Competing Risks (Submitted)
 
 }
@@ -242,7 +242,7 @@ p(y_i|\alpha_i,\lambda_i)=\lambda_i\alpha_i y_i^{\alpha_i-1}e^{-\lambda_i y_i^{\
 } \eqn{[x]=Ga(\alpha,\lambda)} denotes that the density function of \eqn{x} is \eqn{\displaystyle\frac{\lambda^{\alpha}}{\Gamma(\alpha)}x^{\alpha-1}e^{-\lambda x}}, \eqn{\alpha>0}, \eqn{\lambda>0}, \eqn{x>0}. \eqn{q(\beta)} is the base distribution for regression coefficients.The details of the choice of base distribution is described in our coming paper.
 
 In competing risks data, the likelihood for each individual can be written as\deqn{
-L=\{f_1(t_i)\}^{I(c_i=1)}\{f_2(t_i)\}^{I(c_i=2)}\{1-F_1(t_i)-F_2(t_i)\}^{I(c_i=0)},} where \eqn{f_1(\cdot)} and \eqn{f_2(\cdot)} are the subdistribution density functions for cause 1 and 2 and survival function for the \eqn{i}th observation can be expressed as \eqn{1-F_1(t_i)-F_2(t_i)}. In order to model it, we introduce a parameter \eqn{p}, which is the cumulative incidence function of primary cause at \eqn{\infty}, \eqn{p=F_1(\infty)}. The likelihood can be written as \deqn{
+L=\{f_1(t_i)\}^{I(c_i=1)}\{f_2(t_i)\}^{I(c_i=2)}\{1-F_1(t_i)-F_2(t_i)\}^{I(c_i=0)},} where \eqn{f_1(\cdot)} and \eqn{f_2(\cdot)} are the cause-specific density functions for cause 1 and 2 and survival function for the \eqn{i}th observation can be expressed as \eqn{1-F_1(t_i)-F_2(t_i)}. In order to model it, we introduce a parameter \eqn{p}, which is the cumulative incidence function of primary cause at \eqn{\infty}, \eqn{p=F_1(\infty)}. The likelihood can be written as \deqn{
 L=\{pd_1(t_i)\}^{I(c_i=1)}\{(1-p)d_2(t_i)\}^{I(c_i=2)}\{1-pD_1(t_i)-(1-p)D_2(t_i)\}^{I(c_i=0)} .}
 
  Here the \eqn{D_{1}}, \eqn{D_{2}}, \eqn{d_{1}}, \eqn{d_{2}} are the normalized baseline cumulative incidence functions and cause-specific density functions and are modeled with Weibull mixtures as above, while \eqn{p} is the normalizing parameter for the baseline distribution. When regression covariates are present in a competing risks data, we modify the above likelihood with respect to the value of covaraites, such that \deqn{
@@ -272,6 +272,7 @@ event<-rep(1,npts)
 y<-cbind(tl,tr,event)
 result<-dpweib(y~1)
 summary(result)
+par(mfrow=c(1,3))
 plot(result)
 
 ##################################################################
@@ -280,7 +281,7 @@ plot(result)
 library("DPWeibull")
 rweib<-function(n,alpha,lambda)
 {
-(-log(runif(n))/lambda)^(1/alpha)
+  (-log(runif(n))/lambda)^(1/alpha)
 }
 npts<-400
 x1<-rnorm(npts)
@@ -289,24 +290,25 @@ x<-cbind(x1,x2)
 lambdagen<-exp(0.2*x1+0.2*x2)
 x.orig<-1:npts
 for(i in 1:npts){
-x.orig[i]<-rweib(1,3,lambdagen[i])
+  x.orig[i]<-rweib(1,3,lambdagen[i])
 }
-tl<-x.orig
-tr<-x.orig
-event<-rep(1,npts)
+cens<-rexp(npts,1)
+event<-as.numeric(x.orig<cens)
+t<-ifelse(event,x.orig,cens)
 xpred<-matrix(c(0,0),ncol=2)
 time<-(1:40)/20
-y<-cbind(tl,tr,event)
+y<-cbind(t,event)
 data<-data.frame(y=y,x1=x1,x2=x2)
-result<-dpweib(y~x1+x2, data, quantile(x.orig,0.95),predtime=time, comp=FALSE)
+result<-dpweib(y~x1+x2, data,predtime=time)
+par(mfrow=c(1,2))
 plot(result,,simultaneous=TRUE)
 summary(result)
 predresult<-predict(result,xpred)
+par(mfrow=c(1,3))
 plot(predresult)
 summary(predresult)
 
 #######################################################################
-
 #competing risks model without covariates
 library("DPWeibull")
 npts<-200
@@ -324,11 +326,13 @@ c<-ifelse(u3<t,0,c)
 t<-ifelse(c==0,u3,t)
 times<-(1:50)/50*2.5
 y<-cbind(t,c)
-result<-dpweib(y~1,predtime=times,burnin=2000,iteration=2000)
+result<-dpweib(y~1,predtime=times)
 summary(result)
+par(mfrow=c(1,3))
 plot(result)
-result<-continue(result,simultaneous=TRUE,burnin=2000,iteration=2000)
+result<-continue(result,simultaneous=TRUE)
 summary(result)
+par(mfrow=c(1,3))
 plot(result)
 
 ############################################################################
@@ -348,8 +352,8 @@ lambdagen2<-exp(-2)
 inverseweib<-function(u,alpha,lambda){
   (-log(1-u)/lambda)^(1/alpha)
 }
-zbeta1<-x \%*\% beta1
-zbeta2<-x \%*\% beta2
+zbeta1<-x %*% beta1
+zbeta2<-x %*% beta2
 p<-0.8
 p1<-1-(1-p)^exp(zbeta1)
 u2<-runif(npts)
@@ -369,11 +373,33 @@ x2pred<-factor(rep(c("good","bad"),times=2))
 x1pred<-factor(c("good","good","bad","bad"))
 xpred<-cbind(x1pred,x2pred)
 y<-cbind(time,event)
-result<-dpweib(y~factor(x1)+factor(x2),predtime=(1:50)*2)
+data<-data.frame(y=y,x1=x1,x2=x2)
+result<-dpweib(y~factor(x1)+factor(x2),data,predtime=(1:50)*2)
 summary(result)
+par(mfrow=c(1,2))
 plot(result)
+
 newresult<-predict(result,xpred)
 summary(newresult)
+par(mfrow=c(2,3))
 plot(newresult)
+
+###############################################################
+
+# An example of interval censored data
+library(DPWeibull)
+data(deterioration)
+attach(deterioration)
+y<-cbind(left,right)
+y<-cbind(left,right,rep(0,length(right)))
+y[,3]<-ifelse(right==-999,0,1)
+fitddp <- dpweib(y~trt)
+
+xnew<-matrix(c(0,1),nrow=2,ncol=1)
+grid<-seq(0.01,70,1)
+predddp<-predict(fitddp,xpred=xnew,tpred=grid)
+par(mfrow=c(2,3))
+plot(predddp)
+
 }
 }

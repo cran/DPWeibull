@@ -1,13 +1,13 @@
 compdpm<-function(t,event,high.pct,times,
-                  burnin=1000,iteration=1000,
-                  alpha00=1.354028,
-                  alpha0=0.03501257,
-                  lambda00=7.181247,
-                  alphaalpha=0.2,alphalambda=0.1,
-                  a=1,b=1,
-                  gamma0=1,gamma1=1,
-                  addgroup=2,
-                  thin=1){
+                  burnin,iteration,
+                  alpha00,
+                  alpha0,
+                  lambda00,
+                  alphaalpha,alphalambda,
+                  a,b,
+                  gamma0,gamma1,
+                  addgroup,
+                  thin){
   npts<-length(t)
   c<-rep(1,npts)
   nm<-c(npts,rep(0,npts-1))

@@ -1,16 +1,14 @@
-
-
 dpm<-function(tl,tr,event,high.pct,tpred,
-                  burnin=1000,iteration=1000,
-                  alpha00=1.354028,
-                  alpha0=0.03501257,
-                  lambda00=7.181247,
-                  alphaalpha=0.2,alphalambda=0.1,
-                  a=1,b=1,
-                  addgroup=2,
-                  thin=10){
+                  burnin,iteration,
+                  alpha00,
+                  alpha0,
+                  lambda00,
+                  alphaalpha,alphalambda,
+                  a,b,
+                  addgroup,
+                  thin){
   pi<-as.numeric(event==0)
-  delta<-as.numeric((event==1)&(tl=tr))
+  delta<-as.numeric((event==1)&(tl==tr))
   tr<-ifelse(pi==1,tl,tr)
   npts<-length(tl)
   c<-rep(1,npts)

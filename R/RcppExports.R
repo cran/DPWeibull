@@ -46,10 +46,11 @@ thin=10, betasl=2.5, addgroup=2)
 		}
 	}
   if(is.null(high.pct)){
-  high.pct<-ifelse(ncol(y)==3,max(y[,2],na.rm=TRUE),max(y[,1],na.rm=TRUE))
   censorratio<-sum(event==0)/length(event)
   if(censorratio>0.153){
-  high.pct<-findhighpct(censorratio)*high.pct
+  high.pct<-findhighpct(censorratio)*ifelse(ncol(y)==3,max(y[,2],na.rm=TRUE),max(y[,1],na.rm=TRUE))
+  }else{
+  high.pct<-ifelse(ncol(y)==3,quantile(y[,2],0.95,na.rm=TRUE),quantile(y[,1],0.95,na.rm=TRUE))
   }
 }
 usertime<-TRUE
@@ -94,7 +95,6 @@ if((max(event)>1)|(comp==TRUE)){
                   gamma0,gamma1, addgroup,
                   thin, betasl)
         z$x<-x
-        z$covnames<-colnames(x)
         if(alpha!=0.05){
 	z<-ddpdiffalpha(alpha,z)
 	}
@@ -131,7 +131,6 @@ if((max(event)>1)|(comp==TRUE)){
                   alphaalpha,alphalambda,a,b,
                   addgroup,betasl,thin)
         z$x<-x
-        z$covnames<-colnames(x)
 	class(z)<-"ddp"
         if(alpha!=0.05){
 	z<-ddpdiffalpha(alpha,z)

@@ -1,15 +1,15 @@
 
 reg<-function(tl,tr,event,x,high.pct,tpred,indicator,
-                  burnin=1000,iteration=1000,
-                  alpha00=1.354028,
-                  alpha0=0.03501257,
-                  lambda00=7.181247,
-                  alphaalpha=0.2,alphalambda=0.1,
-                  a=1,b=1,
-                  addgroup=2,betasl=2.5,
-                  thin=10){
+                  burnin,iteration,
+                  alpha00,
+                  alpha0,
+                  lambda00,
+                  alphaalpha,alphalambda,
+                  a,b,
+                  addgroup,betasl,
+                  thin){
   pi<-as.numeric(event==0)
-  delta<-as.numeric((event==1)&(tl=tr))
+  delta<-as.numeric((event==1)&(tl==tr))
   tr<-ifelse(pi==1,tl,tr)
   npts<-length(tl)
   c<-rep(1,npts)
@@ -30,9 +30,7 @@ reg<-function(tl,tr,event,x,high.pct,tpred,indicator,
   if(is.vector(x)){
     x<-matrix(x,ncol=1)
   }
-  #print(str(x))
   beta<-rtrunc(npts*ncol(x), spec="cauchy", a = -10, b =10, location=0.0,scale=betasl)
-  #print(str(beta))
   beta<-matrix(beta,ncol=ncol(x))
   
   tl<-tl/high.pct*10
@@ -44,6 +42,7 @@ reg<-function(tl,tr,event,x,high.pct,tpred,indicator,
   xpred2<-rep(0,length(xmean))
   xpred1<-(xpred1-xmean)/2/xsd
   xpred2<-(xpred2-xmean)/2/xsd
+  covnames<-names(xsd)
   x<-(x-matrix(rep(xmean,times=nrow(x)),nrow=nrow(x), byrow=TRUE))/matrix(rep(2*xsd,times=nrow(x)),nrow=nrow(x), byrow=TRUE)
   nu<-rgamma(burnin+iteration+1,a,b)
   ngrp<-rep(1,burnin+iteration+1)
@@ -65,5 +64,6 @@ reg<-function(tl,tr,event,x,high.pct,tpred,indicator,
   result$xsd<-xsd
   result$xscale<-xscale
   result$indicator<-indicator
+  result$covnames<-covnames
   result  
 }

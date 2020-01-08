@@ -14,25 +14,28 @@ using namespace Rcpp;
 //calculating the log likelihood
 double noreg_loglikelihood(const double tl, const double tr,
 const int delta, const int pi,
-const double lambda, const double alpha){
+const double loglambda, const double alpha){
 // tl left end point.
 // tr right end point.
 // delta is the exact observation indicator, 1 if exact observation, 0 if not.
 // pi is the right censoring indicator, 1 if right censored, 0 if not.
 	if ((pi==0)&(delta == 1)){
 //exact obs
-	//return logdWeibloglambda(double t, double alpha, double loglambda);
-	return logdWeib(tl,alpha,lambda);
+	return logdWeibloglambda(tl, alpha, loglambda);
+	//return logdWeib(tl,alpha,lambda);
 	}else if((pi==1)&(delta == 0)){
 // right censored obs
-	return logsWeib(tl,alpha,lambda);
+	return logsWeibloglambda(tl,alpha,loglambda);
 	}else{
 // left censored and interval censored
 // to avoid the situation of log(0), we add this cushion thing.
-	double cushion=sWeib(tl,alpha,lambda)-sWeib(tr,alpha,lambda);
+	double cushion=sWeibloglambda(tl,alpha,loglambda)-sWeibloglambda(tr,alpha,loglambda);
+//	Rcout<<"leftsurv	"<<sWeibloglambda(tl,alpha,loglambda)<<" rightsurv "<<sWeibloglambda(tr,alpha,loglambda)<<std::endl;
 		if((cushion>0.0)&&(testreal(cushion))){
+		//	Rcout<<"tl	"<<tl<<" tr "<<tr<<" cushion "<<cushion<<std::endl;
 			return log(cushion);
 		 }else{
+		//	Rcout<<"tl	"<<tl<<" tr "<<tr<<" cushion "<<cushion<<std::endl;
 			return -pow(100.0,100.0); 
 		 }
 	}
@@ -86,7 +89,7 @@ int noreg_group_assign(const double tl, const double tr,
 	}
 	NumericVector logprob(allbaskets[0]+addcluster);
 	for (int j = 0; j<(allbaskets[0]+addcluster); j++){
-			logprob[j] = noreg_loglikelihood(tl,tr,delta,pi, lambdavector[j], alphavector[j]);
+			logprob[j] = noreg_loglikelihood(tl,tr,delta,pi, log(lambdavector[j]), alphavector[j]);
 	}
     logprob=logprob-max(logprob);
 	NumericVector prob=abs(exp(logprob)*nmvector);

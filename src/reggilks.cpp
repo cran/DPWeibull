@@ -23,7 +23,7 @@ struct reg_loglambda_parm{
 };
 
 struct reg_alpha_parm{
-	double lambda, alphaalpha, alphalambda;
+	double loglambda, alphaalpha, alphalambda;
 	double *tl;
 	double *tr;
 	int *delta;
@@ -67,7 +67,9 @@ double reg_logdloglambda(double loglambda, void* loglambdareg_data){
 				 sWeibloglambda(d->tr[i],d->alpha,loglambda+d->xbeta[i]);
 				 if((cushion>0.0)&&(testreal(cushion))){
 					 temp+=log(cushion);
-				 }
+				 }else{
+				temp+=-pow(100.0,100.0);
+				}
 			 }
 		}
 	}
@@ -107,30 +109,29 @@ double reg_logdalpha(double alpha, void* alpha_data){
 	for (int i = 0; i<(d->size); i++){
 		if((testreal(temp))&&(abs(temp)>=0.0)){
 			if((d->delta[i]==1)&&(d->pi[i]==0)){
-			 temp+=logdWeibloglambda(d->tl[i],alpha,log(d->lambda)+d->xbeta[i]);
+			 temp+=logdWeibloglambda(d->tl[i],alpha,d->loglambda+d->xbeta[i]);
 			}else if((d->delta[i]==0)&&(d->pi[i]==1)){
-			 temp+=logsWeibloglambda(d->tl[i],alpha,log(d->lambda)+d->xbeta[i]);
+			 temp+=logsWeibloglambda(d->tl[i],alpha,d->loglambda+d->xbeta[i]);
 			}else{
-			 double cushion=sWeibloglambda(d->tl[i],alpha,log(d->lambda)+d->xbeta[i])-
-			 sWeibloglambda(d->tr[i],alpha,log(d->lambda)+d->xbeta[i]);
+			 double cushion=sWeibloglambda(d->tl[i],alpha,d->loglambda+d->xbeta[i])-
+			 sWeibloglambda(d->tr[i],alpha,d->loglambda+d->xbeta[i]);
 			 if((cushion>0.0)&&(testreal(cushion))){
 				temp+=log(cushion);
-			 }
-			 /*else{
-					 temp+=-pow(100.0,100.0);
-			}*/
+			 }else{
+				temp+=-pow(100.0,100.0);
+			}
 		  }
 		 }
 	}
 	return (d->alphaalpha-1.0)*log(alpha)-(d->alphalambda)*alpha+temp;
 }
 
-void reg_samplealpha(double* alpha, double lambda,
+void reg_samplealpha(double* alpha, double loglambda,
 double alphaalpha, double alphalambda,
  double* tl, double* tr,
  int* delta, int* pi, int size, double* xbeta)
 {
-  double xl=findbase(lambda);
+  double xl=findbase(exp(loglambda));
   double xr=80.0;
   int ninit=5;
   int dometrop = 1;
@@ -138,7 +139,7 @@ double alphaalpha, double alphalambda,
   struct reg_alpha_parm alpha_data;
   alpha_data.alphaalpha=alphaalpha;
   alpha_data.alphalambda=alphalambda;
-  alpha_data.lambda=lambda;
+  alpha_data.loglambda=loglambda;
   alpha_data.size=size;
   alpha_data.tl=tl;
   alpha_data.tr=tr;
@@ -165,7 +166,9 @@ double reg_logdbeta(double beta, void* beta_data){
 			 -sWeibloglambda(d->tr[i],d->alpha,d->loglambda[i]+d->x[i]*beta);
 			 if((cushion>0.0)&&(testreal(cushion))){
 				temp+=log(cushion);
-			 }
+			 }else{
+				temp+=-pow(100.0,100.0);
+			}
 			}
 		 }
 	}

@@ -1,13 +1,13 @@
 compreg<-function(t,event,x,high.pct,predtime,indicator,
-                  burnin=1000,iteration=1000,
-                  alpha00=1.354028,
-                  alpha0=0.03501257,
-                  lambda00=7.181247,
-                  alphaalpha=0.2,alphalambda=0.1,
-                  a=1,b=1,
-                  gamma0=1,gamma1=1,
-                  addgroup=2,
-                  thin=10, betasl=2.5){
+                  burnin,iteration,
+                  alpha00,
+                  alpha0,
+                  lambda00,
+                  alphaalpha,alphalambda,
+                  a,b,
+                  gamma0,gamma1,
+                  addgroup,
+                  thin, betasl){
   if(is.vector(x)){
     x<-matrix(x,ncol=1)
   }
@@ -63,6 +63,7 @@ compreg<-function(t,event,x,high.pct,predtime,indicator,
   xpred2<-rep(0,length(xmean))
   xpred1<-(xpred1-xmean)/2/xsd
   xpred2<-(xpred2-xmean)/2/xsd
+  covnames<-names(xsd)
   x<-(x-matrix(rep(xmean,times=nrow(x)),nrow=nrow(x), byrow=TRUE))/matrix(rep(2*xsd,times=nrow(x)),nrow=nrow(x), byrow=TRUE)
   nu<-rgamma(burnin+iteration+1,a,b)
   ngrp<-rep(1,burnin+iteration+1)
@@ -88,6 +89,7 @@ compreg<-function(t,event,x,high.pct,predtime,indicator,
   result$xscale<-xscale
   result$event<-event
   result$indicator<-indicator
+  result$covnames<-covnames
   result  
 }
 

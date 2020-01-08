@@ -279,7 +279,7 @@ plot.predddpcomp<-function(x,...){
 	  lines(x$tpred,x$Fpredl[i,],lwd=3,lty=2)
 	  lines(x$tpred,x$Fpredu[i,],lwd=3,lty=2)
 	  plot(x$tpred,x$dpred[i,],
-	main=paste("Predicted Subdistribution Density Estimate\n with New Data ",i," for Cause 1", sep=""),
+	main=paste("Predicted Cause-specific Density Estimate\n with New Data ",i," for Cause 1", sep=""),
 	type="l",lwd=3,xlab="Time",ylab="",ylim=c(dbot,dtop))
 	  lines(x$tpred,x$dpredl[i,],lwd=3,lty=2)
 	  lines(x$tpred,x$dpredu[i,],lwd=3,lty=2)

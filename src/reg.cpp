@@ -18,8 +18,8 @@ double reg_loglikelihood(const double tl, const double tr,
 const int delta, const int pi,
 const double lambda, const double alpha,
 NumericVector x, NumericVector beta){
-	double lambda_xbeta=exp(log(lambda)+sum(x*beta));
-	return noreg_loglikelihood(tl,tr,delta,pi, lambda_xbeta, alpha);
+	double loglambda_xbeta=log(lambda)+sum(x*beta);
+	return noreg_loglikelihood(tl,tr,delta,pi, loglambda_xbeta, alpha);
 }
 
 int reg_group_assign(const double tl, const double tr,
@@ -56,8 +56,8 @@ int reg_group_assign(const double tl, const double tr,
 			double lambda0_new=R::rgamma(alpha00,1.0/lambda00);
 			lambdavector(i) = R::rgamma(alpha0,1.0/ lambda0_new);
 			for(int j=0;j<x.size();j++){
-				samptruncauchy(&betamatrix(i,j),betasl);
-			}
+					samptruncauchy(&betamatrix(i,j),betasl);
+				}
 			base_new=findbase(lambdavector(i));
 			if(base_new<80.0){
 				temp1=R::pgamma(base_new,alphaalpha,1.0/alphalambda,1,0);
@@ -77,7 +77,9 @@ int reg_group_assign(const double tl, const double tr,
 		//if(!testreal(logprob[j])){logprob[j]=-pow(100.0,100.0);}
 	}
         logprob=logprob-max(logprob);
-	NumericVector prob=abs(exp(logprob)*nmvector);
+		//		Rcout<<"logprob	"<<logprob<<std::endl;
+	NumericVector prob=exp(logprob)*nmvector;
+		//		Rcout<<"prob	"<<prob<<std::endl;
 	  if(sum(prob)>0.0){
 		  prob=prob/sum(prob);
 	  }else{
@@ -134,14 +136,14 @@ void reg_update(NumericVector tl, NumericVector tr,
 	alpha0, lambda0[uniquec(k)-1], tltemp.begin(),trtemp.begin(),
 	deltatemp.begin(),pitemp.begin(),
 	tltemp.size(),xbeta.begin());
-	reg_samplealpha(&alpha[uniquec[k] - 1], lambda[uniquec[k] - 1],
+	reg_samplealpha(&alpha[uniquec[k] - 1], log(lambda[uniquec[k] - 1]),
 	alphaalpha, alphalambda,tltemp.begin(),trtemp.begin(),deltatemp.begin(),pitemp.begin(),
 	tltemp.size(), xbeta.begin());
 	for(int i=0;i<xtemp.ncol();i++){
 			  NumericVector xsample=xtemp(_,i);
 			  NumericMatrix emptycol(clone(xtemp));
 			  emptycol(_,i)=rbinom(tltemp.size(),1,0.0);
-			  NumericVector partloglambda=log(lambda[uniquec[k] - 1])
+			  NumericVector partloglambda=rep(log(lambda[uniquec[k] - 1]),tltemp.size())
 			  +matrixtimesvector(emptycol,beta(uniquec[k]-1,_));
 	  		  reg_samplebeta(&beta(uniquec[k] - 1,i), betasl,
 			  alpha[uniquec[k] - 1],tltemp.begin(),trtemp.begin(), 
@@ -188,11 +190,10 @@ List reg(const int burnin, const int iteration,
 		Rcout<<"iteration number	"<<g+1<<std::endl;
 		}
 		for (int i = 0; i<tl.size(); i++){
-			c[i] =reg_group_assign(tl[i], tr[i], delta[i], pi[i], x(i,_), c[i], nu[g], nm, alpha, lambda,beta,
-     			 lambda00, alpha00, alpha0, alphaalpha,alphalambda,betasl,m,allbaskets,emptybasket);
+			c[i] =reg_group_assign(tl[i], tr[i], delta[i], pi[i], x(i,_), c[i], nu[g], nm, alpha, lambda,beta,lambda00, alpha00, alpha0, alphaalpha,alphalambda,betasl,m,allbaskets,emptybasket);
 		}
-		 reg_update(tl, tr, delta, pi, x, c, nm, alpha, lambda, beta, lambda0,
-		 alpha00, alpha0, lambda00, alphaalpha, alphalambda, betasl, &ngrp[g+1]);
+		reg_update(tl, tr, delta, pi, x, c, nm, alpha, lambda, beta, lambda0,
+		alpha00, alpha0, lambda00, alphaalpha, alphalambda, betasl, &ngrp[g+1]);
  		nu[g+1] = nugen(nu[g], tl.size(), ngrp[g+1], a, b);
 	if((g>=burnin)&&(g%thin==(thin-1))){
 			int index=(g-burnin-(thin-1))/thin;
