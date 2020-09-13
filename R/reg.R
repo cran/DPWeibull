@@ -10,7 +10,7 @@ reg<-function(tl,tr,event,x,high.pct,tpred,indicator,
                   thin){
   pi<-as.numeric(event==0)
   delta<-as.numeric((event==1)&(tl==tr))
-  tr<-ifelse(pi==1,tl,tr)
+  tr<-ifelse(event==3,tr,tl)
   npts<-length(tl)
   c<-rep(1,npts)
   nm<-c(npts,rep(0,npts-1))

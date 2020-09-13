@@ -4,9 +4,9 @@
 #include <R.h>
 #include <algorithm>
 #include <math.h>
-#include <Rcpp.h>
-
+#include <RcppArmadillo.h>
 using namespace Rcpp ;
+using namespace arma;
 #include "arms.h"
 #include "auxfuns.h"
 #include "commonfunc.h"
@@ -187,7 +187,7 @@ List reg(const int burnin, const int iteration,
 	NumericMatrix betarec(nsave,tl.size()*x.ncol());
 	for (int g = 0; g<(burnin + iteration); g++){
 		if((g+1)%100==0){
-		Rcout<<"iteration number	"<<g+1<<std::endl;
+		Rcout<<g+1<<" iterations out of "<<burnin + iteration<<" iterations done"<<std::endl;
 		}
 		for (int i = 0; i<tl.size(); i++){
 			c[i] =reg_group_assign(tl[i], tr[i], delta[i], pi[i], x(i,_), c[i], nu[g], nm, alpha, lambda,beta,lambda00, alpha00, alpha0, alphaalpha,alphalambda,betasl,m,allbaskets,emptybasket);
@@ -289,7 +289,7 @@ List reg_resume(const int burnin, const int iteration,
 	NumericMatrix betarec(nsave,tl.size()*x.ncol());
 	for (int g = 0; g<(burnin + iteration); g++){
 		if((g+1)%100==0){
-		Rcout<<"iteration number	"<<g+1<<std::endl;
+		Rcout<<g+1<<" iterations out of "<<burnin + iteration<<" iterations done"<<std::endl;
 		}
 		for (int i = 0; i<tl.size(); i++){
 			c[i] =reg_group_assign(tl[i], tr[i], delta[i], pi[i], x(i,_), c[i], nu[g], nm, alpha, lambda,beta,
@@ -374,38 +374,41 @@ List predreg(NumericMatrix alpharec,
     NumericMatrix hpred(xplot.nrow(),tplot.size());  
     NumericMatrix hpredl(xplot.nrow(),tplot.size());  
     NumericMatrix hpredu(xplot.nrow(),tplot.size());  
+	cube S(nsave,tplot.size(),xplot.nrow());
+	cube d(nsave,tplot.size(),xplot.nrow());
+	cube h(nsave,tplot.size(),xplot.nrow());
 	for(int covnum=0; covnum<xplot.nrow(); covnum++){   
-	  NumericMatrix S(nsave,tplot.size());
-	  NumericMatrix d(nsave,tplot.size());
-	  NumericMatrix h(nsave,tplot.size());
- 	       for(int i=0;i<nsave;i++){
-		 for(int j=0;j<tplot.size();j++){
+ 	    for(int i=0;i<nsave;i++){
+			for(int j=0;j<tplot.size();j++){
 			double tempS=0.0;
 			double tempd=0.0;
 				for(int k=0;k<alpharec.ncol();k++){
-		                 	 double temptemp=0.0;
-		                	for(int l=0; l<xplot.ncol();l++){
-						temptemp+=xplot(covnum,l)*betarec(i,k*xplot.ncol()+l);
+		            double temptemp=0.0;
+		                for(int l=0; l<xplot.ncol();l++){
+							temptemp+=xplot(covnum,l)*betarec(i,k*xplot.ncol()+l);
 					}
 					tempS+=sWeibloglambda(tplot(j),alpharec(i,k),log(lambdarec(i,k))+temptemp);
 					tempd+=dWeibloglambda(tplot(j),alpharec(i,k),log(lambdarec(i,k))+temptemp);
 				}
-			S(i,j)=tempS/alpharec.ncol();
-			d(i,j)=tempd/alpharec.ncol();
-			h(i,j)=d(i,j)/S(i,j);
+			S(i,j,covnum)=tempS/alpharec.ncol();
+			d(i,j,covnum)=tempd/alpharec.ncol();
+			h(i,j,covnum)=d(i,j,covnum)/S(i,j,covnum);
 		}
 	   }
-	Spred(covnum,_)=colpercentileRcpp(S,0.5);
-	Spredu(covnum,_)=colpercentileRcpp(S,1.0-alpha/2.0);
-	Spredl(covnum,_)=colpercentileRcpp(S,alpha/2.0);
-	dpred(covnum,_)=colpercentileRcpp(d,0.5);
-	dpredu(covnum,_)=colpercentileRcpp(d,1.0-alpha/2.0);
-	dpredl(covnum,_)=colpercentileRcpp(d,alpha/2.0);
-	hpred(covnum,_)=colpercentileRcpp(h,0.5);
-	hpredu(covnum,_)=colpercentileRcpp(h,1.0-alpha/2.0);
-	hpredl(covnum,_)=colpercentileRcpp(h,alpha/2.0);
+	Spred(covnum,_)=colpercentileRcpp(wrap(S.slice(covnum)),0.5);
+	Spredu(covnum,_)=colpercentileRcpp(wrap(S.slice(covnum)),1.0-alpha/2.0);
+	Spredl(covnum,_)=colpercentileRcpp(wrap(S.slice(covnum)),alpha/2.0);
+	dpred(covnum,_)=colpercentileRcpp(wrap(d.slice(covnum)),0.5);
+	dpredu(covnum,_)=colpercentileRcpp(wrap(d.slice(covnum)),1.0-alpha/2.0);
+	dpredl(covnum,_)=colpercentileRcpp(wrap(d.slice(covnum)),alpha/2.0);
+	hpred(covnum,_)=colpercentileRcpp(wrap(h.slice(covnum)),0.5);
+	hpredu(covnum,_)=colpercentileRcpp(wrap(h.slice(covnum)),1.0-alpha/2.0);
+	hpredl(covnum,_)=colpercentileRcpp(wrap(h.slice(covnum)),alpha/2.0);
 	}
 	 return List::create(
+	Named("S")=S,
+	Named("d")=d,
+	Named("h")=h,	 
 	Named("Spred")=Spred,
 	Named("Spredl")=Spredl,
 	Named("Spredu")=Spredu,

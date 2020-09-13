@@ -210,7 +210,7 @@ List compnoreg(const int burnin, const int iteration,
 	NumericMatrix prec(nsave,t.size());	
 	 for (int g = 0; g<(burnin + iteration); g++){
 		if((g+1)%100==0){
-		Rcout<<"iteration number	"<<g+1<<std::endl;
+		Rcout<<g+1<<" iterations out of "<<burnin + iteration<<" iterations done"<<std::endl;
 		}
 		for (int i = 0; i<t.size(); i++){
 			c[i] =compnoreg_group_assign(t[i], delta[i],c[i], nu[g], 
@@ -331,7 +331,7 @@ List compnoreg_resume(const int burnin, const int iteration,
 	NumericMatrix prec(nsave,t.size());	
 	 for (int g = 0; g<(burnin + iteration); g++){
 		if((g+1)%100==0){
-		Rcout<<"iteration number	"<<g+1<<std::endl;
+		Rcout<<g+1<<" iterations out of "<<burnin + iteration<<" iterations done"<<std::endl;
 		}
 		for (int i = 0; i<t.size(); i++){
 			c[i] =compnoreg_group_assign(t[i], delta[i],c[i], nu[g], 

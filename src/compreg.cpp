@@ -9,8 +9,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include <Rcpp.h>
-using namespace Rcpp;
+#include <RcppArmadillo.h>
+using namespace Rcpp ;
+using namespace arma;
 #include "arms.h"
 #include "auxfuns.h"
 #include "commonfunc.h"
@@ -224,29 +225,14 @@ void compreg_update(NumericVector t,
 
 
 List compreg(const int burnin, const int iteration,
-	NumericVector t,
-	IntegerVector delta,
-	NumericMatrix x,
-	IntegerVector c,
-   	 IntegerVector nm, 
-	NumericVector alpha1,
-	NumericVector lambda1,
-	NumericVector lambda01,
-	NumericVector alpha2,
-	NumericVector lambda2,
-	NumericVector lambda02,
-	NumericMatrix beta1,
-	NumericMatrix beta2,
-	NumericVector p,
-	const double alpha00,
-	const double alpha0,
-	const double lambda00,
-	const double alphaalpha,
-	const double alphalambda,
-	const double gamma0,
-	const double gamma1,
-	NumericVector nu,
-	NumericVector ngrp,
+	NumericVector t, IntegerVector delta, NumericMatrix x, IntegerVector c, IntegerVector nm, 
+	NumericVector alpha1, NumericVector lambda1, NumericVector lambda01,
+	NumericVector alpha2, NumericVector lambda2, NumericVector lambda02,
+	NumericMatrix beta1, NumericMatrix beta2, NumericVector p,
+	const double alpha00, const double alpha0, const double lambda00,
+	const double alphaalpha, const double alphalambda,
+	const double gamma0, const double gamma1,
+	NumericVector nu, NumericVector ngrp,
 	const double a, const double b,
 	const double ymax, NumericVector tplot,
 	int m, int thin, double betasl,NumericVector xplot1, NumericVector xplot2){
@@ -268,7 +254,7 @@ List compreg(const int burnin, const int iteration,
 	NumericMatrix prec(nsave,t.size());	
 	 for (int g = 0; g<(burnin + iteration); g++){
 		if((g+1)%100==0){
-		Rcout<<"iteration number	"<<g+1<<std::endl;
+		Rcout<<g+1<<" iterations out of "<<burnin + iteration<<" iterations done"<<std::endl;
 		}
 		for (int i = 0; i<t.size(); i++){
 			c[i] = compreg_group_assign(t[i], delta[i],x(i,_),c[i], nu[g], 
@@ -278,13 +264,13 @@ List compreg(const int burnin, const int iteration,
 			m,allbaskets,emptybasket);
 		}
 		
-		 compreg_update(t, delta,x, c, nm, alpha1, lambda1, lambda01,
-		 alpha2, lambda2, lambda02,
-		 beta1,beta2,betasl,p,
-		 alpha00, alpha0, lambda00,
-		 alphaalpha, alphalambda,
-		 gamma0,gamma1,
-		 &ngrp[g+1]);		 
+		compreg_update(t, delta,x, c, nm, alpha1, lambda1, lambda01,
+		alpha2, lambda2, lambda02,
+		beta1,beta2,betasl,p,
+		alpha00, alpha0, lambda00,
+		alphaalpha, alphalambda,
+		gamma0,gamma1,
+		&ngrp[g+1]);		 
 		nu[g+1] = nugen(nu[g], t.size(), ngrp[g+1], a, b);
 
 		if((g>=burnin)&&(g%thin==(thin-1))){
@@ -335,11 +321,10 @@ List compreg(const int burnin, const int iteration,
 		S2(i,j)=temps2/t.size();
 		d2(i,j)=tempd2/t.size();
 		h2(i,j)=d2(i,j)/S2(i,j);
-	    	loghr(i,j+covnum*tplot.size())=log(d1(i,j))-log(S1(i,j))
-			-log(d2(i,j))+log(S2(i,j));	
+	    loghr(i,j+covnum*tplot.size())=log(d1(i,j))-log(S1(i,j))-log(d2(i,j))+log(S2(i,j));	
 		}
 	  }
-}
+	}
 	 return List::create(
 	 Named("c")=c,
 	 Named("nm")=nm,
@@ -354,7 +339,7 @@ List compreg(const int burnin, const int iteration,
 	 Named("betarec1")=betarec1,
 	 Named("betarec2")=betarec2,
 	 Named("prec")=prec,
-         Named("loghr")=loghr,
+     Named("loghr")=loghr,
 	 Named("ngrp")=ngrp,
 	 Named("emptybasket")=emptybasket,
 	 Named("allbaskets")=allbaskets);
@@ -362,34 +347,18 @@ List compreg(const int burnin, const int iteration,
 
 
 List compreg_resume(const int burnin, const int iteration,
-	NumericVector t,
-	IntegerVector delta,
-	NumericMatrix x,
-	IntegerVector c,
-   	 IntegerVector nm, 
-	NumericVector alpha1,
-	NumericVector lambda1,
-	NumericVector lambda01,
-	NumericVector alpha2,
-	NumericVector lambda2,
-	NumericVector lambda02,
-	NumericMatrix beta1,
-	NumericMatrix beta2,
-	NumericVector p,
-	const double alpha00,
-	const double alpha0,
-	const double lambda00,
-	const double alphaalpha,
-	const double alphalambda,
-	const double gamma0,
-	const double gamma1,
-	NumericVector nu,
-	NumericVector ngrp,
+	NumericVector t, IntegerVector delta, NumericMatrix x,	IntegerVector c, IntegerVector nm, 
+	NumericVector alpha1, NumericVector lambda1, NumericVector lambda01,
+	NumericVector alpha2, NumericVector lambda2, NumericVector lambda02,
+	NumericMatrix beta1, NumericMatrix beta2, NumericVector p,
+	const double alpha00, const double alpha0, const double lambda00,
+	const double alphaalpha, const double alphalambda,
+	const double gamma0, const double gamma1,
+	NumericVector nu, NumericVector ngrp,
 	const double a, const double b,
 	const double ymax, NumericVector tplot,
-	int m, int thin, double betasl,NumericVector xplot1, NumericVector xplot2,
- std::vector<int> emptybasket, IntegerVector allbaskets){
-
+	int m, int thin, double betasl, NumericVector xplot1, NumericVector xplot2,
+	std::vector<int> emptybasket, IntegerVector allbaskets){
 	int nsave=iteration/thin;
 	NumericMatrix alpharec1(nsave,t.size());
 	NumericMatrix lambdarec01(nsave,t.size());
@@ -404,7 +373,7 @@ List compreg_resume(const int burnin, const int iteration,
 	NumericMatrix prec(nsave,t.size());	
 	 for (int g = 0; g<(burnin + iteration); g++){
 		if((g+1)%100==0){
-		Rcout<<"iteration number	"<<g+1<<std::endl;
+		Rcout<<g+1<<" iterations out of "<<burnin + iteration<<" iterations done"<<std::endl;
 		}
 		for (int i = 0; i<t.size(); i++){
 			c[i] = compreg_group_assign(t[i], delta[i],x(i,_),c[i], nu[g], 
@@ -440,42 +409,41 @@ List compreg_resume(const int burnin, const int iteration,
 					betarec2(comp,z*x.ncol()+i) = beta2(c[z] - 1,i);
 				}
 			}
-		}
-		
+		}	
 	}
+	
 	NumericMatrix loghr(nsave,tplot.size()*x.ncol());
     for(int covnum=0; covnum<x.ncol(); covnum++){   
-	  NumericMatrix S1(nsave,tplot.size());
-	  NumericMatrix d1(nsave,tplot.size());
-	  NumericMatrix h1(nsave,tplot.size());
-	  NumericMatrix S2(nsave,tplot.size());
-	  NumericMatrix d2(nsave,tplot.size());
-	  NumericMatrix h2(nsave,tplot.size());
- 	       for(int i=0;i<nsave;i++){
-		 for(int j=0;j<tplot.size();j++){
-		double temps1=0.0;
-		double temps2=0.0;
-		double tempd1=0.0;
-		double tempd2=0.0;
+		NumericMatrix S1(nsave,tplot.size());
+		NumericMatrix d1(nsave,tplot.size());
+		NumericMatrix h1(nsave,tplot.size());
+		NumericMatrix S2(nsave,tplot.size());
+		NumericMatrix d2(nsave,tplot.size());
+		NumericMatrix h2(nsave,tplot.size());
+ 	    for(int i=0;i<nsave;i++){
+			for(int j=0;j<tplot.size();j++){
+			double temps1=0.0;
+			double temps2=0.0;
+			double tempd1=0.0;
+			double tempd2=0.0;
 			for(int k=0;k<t.size();k++){
-			double temptemp1=xplot1(covnum)*betarec1(i,k*x.ncol()+covnum);
-			double temptemp2=xplot2(covnum)*betarec1(i,k*x.ncol()+covnum);
-			temps1+=1.0-F1v2(tplot(j),prec(i,k),alpharec1(i,k),lambdarec1(i,k),temptemp1);
-			temps2+=1.0-F1v2(tplot(j),prec(i,k),alpharec1(i,k),lambdarec1(i,k),temptemp2);
-			tempd1+=f1v2(tplot(j),prec(i,k),alpharec1(i,k),lambdarec1(i,k),temptemp1);
-			tempd2+=f1v2(tplot(j),prec(i,k),alpharec1(i,k),lambdarec1(i,k),temptemp2);
+				double temptemp1=xplot1(covnum)*betarec1(i,k*x.ncol()+covnum);
+				double temptemp2=xplot2(covnum)*betarec1(i,k*x.ncol()+covnum);
+				temps1+=1.0-F1v2(tplot(j),prec(i,k),alpharec1(i,k),lambdarec1(i,k),temptemp1);
+				temps2+=1.0-F1v2(tplot(j),prec(i,k),alpharec1(i,k),lambdarec1(i,k),temptemp2);
+				tempd1+=f1v2(tplot(j),prec(i,k),alpharec1(i,k),lambdarec1(i,k),temptemp1);
+				tempd2+=f1v2(tplot(j),prec(i,k),alpharec1(i,k),lambdarec1(i,k),temptemp2);
 			}
-		S1(i,j)=temps1/t.size();
-		d1(i,j)=tempd1/t.size();
-		h1(i,j)=d1(i,j)/S1(i,j);
-		S2(i,j)=temps2/t.size();
-		d2(i,j)=tempd2/t.size();
-		h2(i,j)=d2(i,j)/S2(i,j);
-	    	loghr(i,j+covnum*tplot.size())=log(d1(i,j))-log(S1(i,j))
-			-log(d2(i,j))+log(S2(i,j));	
+			S1(i,j)=temps1/t.size();
+			d1(i,j)=tempd1/t.size();
+			h1(i,j)=d1(i,j)/S1(i,j);
+			S2(i,j)=temps2/t.size();
+			d2(i,j)=tempd2/t.size();
+			h2(i,j)=d2(i,j)/S2(i,j);
+	    	loghr(i,j+covnum*tplot.size())=log(d1(i,j))-log(S1(i,j))-log(d2(i,j))+log(S2(i,j));	
+			}
 		}
-	  }
-}
+	}
 	 return List::create(
 	 Named("c")=c,
 	 Named("nm")=nm,
@@ -490,7 +458,7 @@ List compreg_resume(const int burnin, const int iteration,
 	 Named("betarec1")=betarec1,
 	 Named("betarec2")=betarec2,
 	 Named("prec")=prec,
-         Named("loghr")=loghr,
+     Named("loghr")=loghr,
 	 Named("ngrp")=ngrp,
 	 Named("emptybasket")=emptybasket,
 	 Named("allbaskets")=allbaskets);
@@ -498,14 +466,10 @@ List compreg_resume(const int burnin, const int iteration,
 
 
 
-List predcompreg(NumericMatrix alpharec1,
-       NumericMatrix lambdarec1,
-       NumericMatrix betarec1,
-       NumericMatrix alpharec2,
-       NumericMatrix lambdarec2,
-       NumericMatrix betarec2,
-       NumericMatrix prec, NumericMatrix xplot, NumericVector tplot, double alpha){
-       int nsave=alpharec1.nrow();
+List predcompreg(NumericMatrix alpharec1,NumericMatrix lambdarec1,NumericMatrix betarec1,
+NumericMatrix alpharec2,NumericMatrix lambdarec2,NumericMatrix betarec2,
+NumericMatrix prec, NumericMatrix xplot, NumericVector tplot, double alpha){
+    int nsave=alpharec1.nrow();
     NumericMatrix Fpred(xplot.nrow(),tplot.size());    
     NumericMatrix Fpredl(xplot.nrow(),tplot.size());  
     NumericMatrix Fpredu(xplot.nrow(),tplot.size());  
@@ -515,38 +479,41 @@ List predcompreg(NumericMatrix alpharec1,
     NumericMatrix hpred(xplot.nrow(),tplot.size());  
     NumericMatrix hpredl(xplot.nrow(),tplot.size());  
     NumericMatrix hpredu(xplot.nrow(),tplot.size());  
+	cube F(nsave,tplot.size(),xplot.nrow());
+	cube d(nsave,tplot.size(),xplot.nrow());
+	cube h(nsave,tplot.size(),xplot.nrow());
 	for(int covnum=0; covnum<xplot.nrow(); covnum++){   
-	  NumericMatrix F(nsave,tplot.size());
-	  NumericMatrix d(nsave,tplot.size());
-	  NumericMatrix h(nsave,tplot.size());
- 	       for(int i=0;i<nsave;i++){
-		 for(int j=0;j<tplot.size();j++){
+ 	    for(int i=0;i<nsave;i++){
+			for(int j=0;j<tplot.size();j++){
 			double tempF=0.0;
 			double tempd=0.0;
 				for(int k=0;k<alpharec1.ncol();k++){
-		                 	 double temptemp=0.0;
-		                	for(int l=0; l<xplot.ncol();l++){
-						temptemp+=xplot(covnum,l)*betarec1(i,k*xplot.ncol()+l);
-					}
+		            double temptemp=0.0;
+		               	for(int l=0; l<xplot.ncol();l++){
+							temptemp+=xplot(covnum,l)*betarec1(i,k*xplot.ncol()+l);
+						}
 					tempF+=F1v2(tplot(j),prec(i,k),alpharec1(i,k),lambdarec1(i,k),temptemp);
 					tempd+=f1v2(tplot(j),prec(i,k),alpharec1(i,k),lambdarec1(i,k),temptemp);
 				}
-			F(i,j)=tempF/alpharec1.ncol();
-			d(i,j)=tempd/alpharec1.ncol();
-			h(i,j)=d(i,j)/(1.0-F(i,j));
+			F(i,j,covnum)=tempF/alpharec1.ncol();
+			d(i,j,covnum)=tempd/alpharec1.ncol();
+			h(i,j,covnum)=d(i,j,covnum)/(1.0-F(i,j,covnum));
 		}
 	   }
-	Fpred(covnum,_)=colpercentileRcpp(F,0.5);
-	Fpredu(covnum,_)=colpercentileRcpp(F,1.0-alpha/2.0);
-	Fpredl(covnum,_)=colpercentileRcpp(F,alpha/2.0);
-	dpred(covnum,_)=colpercentileRcpp(d,0.5);
-	dpredu(covnum,_)=colpercentileRcpp(d,1.0-alpha/2.0);
-	dpredl(covnum,_)=colpercentileRcpp(d,alpha/2.0);
-	hpred(covnum,_)=colpercentileRcpp(h,0.5);
-	hpredu(covnum,_)=colpercentileRcpp(h,1.0-alpha/2.0);
-	hpredl(covnum,_)=colpercentileRcpp(h,alpha/2.0);
+	Fpred(covnum,_)=colpercentileRcpp(wrap(F.slice(covnum)),0.5);
+	Fpredu(covnum,_)=colpercentileRcpp(wrap(F.slice(covnum)),1.0-alpha/2.0);
+	Fpredl(covnum,_)=colpercentileRcpp(wrap(F.slice(covnum)),alpha/2.0);
+	dpred(covnum,_)=colpercentileRcpp(wrap(d.slice(covnum)),0.5);
+	dpredu(covnum,_)=colpercentileRcpp(wrap(d.slice(covnum)),1.0-alpha/2.0);
+	dpredl(covnum,_)=colpercentileRcpp(wrap(d.slice(covnum)),alpha/2.0);
+	hpred(covnum,_)=colpercentileRcpp(wrap(h.slice(covnum)),0.5);
+	hpredu(covnum,_)=colpercentileRcpp(wrap(h.slice(covnum)),1.0-alpha/2.0);
+	hpredl(covnum,_)=colpercentileRcpp(wrap(h.slice(covnum)),alpha/2.0);
 	}
-	 return List::create(
+	return List::create(
+	Named("F")=F,
+	Named("d")=d,
+	Named("h")=h,
 	Named("Fpred")=Fpred,
 	Named("Fpredl")=Fpredl,
 	Named("Fpredu")=Fpredu,

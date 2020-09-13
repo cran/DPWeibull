@@ -8,11 +8,11 @@ generate predictions for dependent Dirichlet process Weibull model data with com
 generate predictions for dependent Dirichlet process Weibull model data with competing risks.
 }
 \usage{
-\method{predict}{ddpcomp}(object,xpred,alpha=0.05,tpred=NULL,...)
+\method{predict}{ddpcomp}(object,newdata,alpha=0.05,tpred=NULL,...)
 }
 \arguments{
 \item{object}{Output from dpweib, must be ddpcomp class}
-\item{xpred}{The new covariates for predictions}
+\item{newdata}{The new dataset for predictions}
 \item{alpha}{\eqn{1-\alpha} is the probability for constructing credible intervals. The default \eqn{\alpha} is 0.05.}
 \item{tpred}{The time points where the predictions are made. If is not given by the user, it will use the time points where the log hazard ratios are calculated in dpweib function.}
 \item{...}{Arguments to be passed to method}

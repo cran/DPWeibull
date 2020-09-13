@@ -197,7 +197,7 @@ List noreg(const int burnin, const int iteration,
 	NumericMatrix lambdarec_orig(nsave,tl.size());
 	for (int g = 0; g<(burnin + iteration); g++){
 		if((g+1)%100==0){
-		Rcout<<"iteration number	"<<g+1<<std::endl;
+		Rcout<<g+1<<" iterations out of "<<burnin + iteration<<" iterations done"<<std::endl;
 		}
 		for (int i = 0; i<tl.size(); i++){
 			c[i] = noreg_group_assign(tl[i], tr[i], delta[i], pi[i], c[i], nu[g], nm, alpha, lambda,lambda00, alpha00, alpha0, alphaalpha,alphalambda,m,allbaskets,emptybasket);
@@ -274,7 +274,7 @@ List noreg_resume(const int burnin, const int iteration,
 	NumericMatrix lambdarec_orig(nsave,tl.size());
 	for (int g = 0; g<(burnin + iteration); g++){
 		if((g+1)%100==0){
-		Rcout<<"iteration number	"<<g+1<<std::endl;
+		Rcout<<g+1<<" iterations out of "<<burnin + iteration<<" iterations done"<<std::endl;
 		}
 		for (int i = 0; i<tl.size(); i++){
 			c[i] = noreg_group_assign(tl[i], tr[i], delta[i], pi[i], c[i], nu[g], nm, alpha, lambda,lambda00, alpha00, alpha0, 				alphaalpha,alphalambda,m,allbaskets,emptybasket);

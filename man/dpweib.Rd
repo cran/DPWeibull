@@ -10,14 +10,16 @@ Use Dirichlet process mixture/dependent Dirichlet process Weibull model for surv
 }
 \usage{
 dpweib(formula,data, high.pct = NULL, predtime = NULL, comp = FALSE,
-alpha = 0.05, simultaneous = FALSE, burnin = 5000, iteration = 5000,
+alpha = 0.05, simultaneous = FALSE, burnin = 8000, iteration = 2000,
 alpha00 = 1.354028, alpha0 = 0.03501257, lambda00 = 7.181247,
 alphaalpha = 0.2, alphalambda = 0.1, a = 1, b = 1, gamma0 = 1, 
 gamma1 = 1, thin = 10, betasl = 2.5, addgroup = 2)
 }
 
 \arguments{
-\item{formula}{A formula written in regular \eqn{y \sim x_1+x_2+ \dots +x_p} regression format. The \eqn{y} can be a Surv object of the type "right" (this is not suitable for competing risks data), or a two-column matrix with the first column being the event time, second column being the exact observation indicator, (This is not suitable for interval censored data.) or a three-column matrix with the first column for the left end point of the observation time, second column for the right end point of the observation time and the third column for the no-right-censoring indicator. (If the exact observation time is observed, the first column is equal to the second column and the third column is 1. If it is an interval-censored observation, the first column is less than the second column and the third column is 1. If it is a right-censored observation, then the value of the second column is ignored and the third column is 0.) The regression covaraites can be continuous or factors. Since the model is flexible enough, interaction terms are not necessary.} 
+\item{formula}{A formula written in regular \eqn{y \sim x_1+x_2+ \dots +x_p} regression format. \eqn{y} is a Surv object for survival data (including interval censored data) and Hist object for competing risks data. The regression covaraites can be continuous or factors. Since the model is flexible enough, interaction terms are not necessary.} 
+
+% The \eqn{y} can be a Surv object of the type "right" (this is not suitable for competing risks data), or a two-column matrix with the first column being the event time, second column being the exact observation indicator, (This is not suitable for interval censored data.) or a three-column matrix with the first column for the left end point of the observation time, second column for the right end point of the observation time and the third column for the no-right-censoring indicator. (If the exact observation time is observed, the first column is equal to the second column and the third column is 1. If it is an interval-censored observation, the first column is less than the second column and the third column is 1. If it is a right-censored observation, then the value of the second column is ignored and the third column is 0.)
 
 
 \item{data}{an optional data frame, list or environment (or object coercible by as.data.frame to a data frame) containing the variables in the model. If not found in data, the variables are taken from environment(formula), typically the environment from which dpweib is called.}
@@ -204,13 +206,10 @@ Kottas,A. (2006) Nonparametric Bayesian survival analysis using mixtures of Weib
 
 Shi, Y. Martens, M., Banerjee, A. and Laud, P. (2019) Low Information Omnibus (LIO) Priors for Dirichlet Process Mixture Models. \emph{Bayesian Anal.} \bold{14}, Num 3, 677-702. doi:10.1214/18-BA1119. https://projecteuclid.org/euclid.ba/1560240023
 
-Shi,Y. and Laud,P. and Neuner,J (2019) A Dependent Dirichlet Process Model for Survival DataWith
-Competing Risks (Submitted)
+Shi,Y. and Laud,P. and Neuner,J (2019) A Dependent Dirichlet Process Model for Survival Data With
+Competing Risks (accepted by Lifetime Data Analysis)
 
 }
-
-
-
 
 \details{
 For no regression, no competing risks data, the function dpweib implements dirichlet process Weibull mixture model. The basic form of model is the following.
@@ -256,150 +255,97 @@ f_2(t|\mathbf{Z},\boldsymbol{\beta_2},p)=(1-p)^{\exp(\mathbf{Z^T}\boldsymbol{\be
 }
 \examples{
 \dontrun{
-library("DPWeibull")
-#example for no regression data without competing risks
-p<-0.8
-mu1<-0
-mu2<-1.2
-sigma1<-sqrt(0.25)
-sigma2<-sqrt(0.02)
-npts<-200
-index<-rbinom(npts,1,p)
-x.orig<-ifelse(index,rlnorm(npts,mu1,sigma1),rlnorm(npts,mu2,sigma2))
-tl<-x.orig
-tr<-x.orig
-event<-rep(1,npts)
-y<-cbind(tl,tr,event)
-result<-dpweib(y~1)
-summary(result)
-par(mfrow=c(1,3))
-plot(result)
+library(survival)
+library(DPWeibull)
+data(veteran)
 
-##################################################################
+DPresult1<-dpweib(Surv(time,status)~1,data=veteran)
+summary(DPresult1)
+opar<-par(mfrow=c(1,3),
+          mar=c(3.1, 3.1, 3.1, 5.1),
+          mgp=c(2, 0.5, 0),
+          oma=c(0, 0, 0, 4))
+plot(DPresult1)
+par(opar)
 
-# example for regression data without competing risks
-library("DPWeibull")
-rweib<-function(n,alpha,lambda)
-{
-  (-log(runif(n))/lambda)^(1/alpha)
-}
-npts<-400
-x1<-rnorm(npts)
-x2<-rnorm(npts)
-x<-cbind(x1,x2)
-lambdagen<-exp(0.2*x1+0.2*x2)
-x.orig<-1:npts
-for(i in 1:npts){
-  x.orig[i]<-rweib(1,3,lambdagen[i])
-}
-cens<-rexp(npts,1)
-event<-as.numeric(x.orig<cens)
-t<-ifelse(event,x.orig,cens)
-xpred<-matrix(c(0,0),ncol=2)
-time<-(1:40)/20
-y<-cbind(t,event)
-data<-data.frame(y=y,x1=x1,x2=x2)
-result<-dpweib(y~x1+x2, data,predtime=time)
-par(mfrow=c(1,2))
-plot(result,,simultaneous=TRUE)
-summary(result)
-predresult<-predict(result,xpred)
-par(mfrow=c(1,3))
-plot(predresult)
-summary(predresult)
+DPresult2<-dpweib(Surv(time,status)~factor(trt)+age,data=veteran)
+summary(DPresult2)
+opar<-par(mfrow=c(1,2),
+          mar=c(3.1, 3.1, 3.1, 5.1),
+          mgp=c(2, 0.5, 0),
+          oma=c(0, 0, 0, 4))
+plot(DPresult2)
+par(opar)
 
-#######################################################################
-#competing risks model without covariates
-library("DPWeibull")
-npts<-200
-p<-0.8
-u1<-runif(npts)
-c<-ifelse(u1<p,1,2)
-r1<-1
-r2<-1
-a<-0
-b<-2.2
-u2<-runif(npts)
-t<-ifelse(c==1,-log(1-u2)/r1,-log(1-u2)/r2)
-u3<-runif(npts,a,b)
-c<-ifelse(u3<t,0,c)
-t<-ifelse(c==0,u3,t)
-times<-(1:50)/50*2.5
-y<-cbind(t,c)
-result<-dpweib(y~1,predtime=times)
-summary(result)
-par(mfrow=c(1,3))
-plot(result)
-result<-continue(result,simultaneous=TRUE)
-summary(result)
-par(mfrow=c(1,3))
-plot(result)
+newdata<-NULL
+newdata$trt<-veteran$trt[c(1,70)]
+newdata$age<-veteran$age[c(2,87)]
+newdata<-data.frame(newdata)
+DPpredict<-predict(DPresult2,newdata)
+summary(DPpredict)
+opar<-par(mfrow=c(2,3),
+          mar=c(3.1, 3.1, 3.1, 5.1),
+          mgp=c(2, 0.5, 0),
+          oma=c(0, 0, 0, 4))
+plot(DPpredict)
+par(opar)
 
 ############################################################################
+# Competing Risks Data
+# Competing Risks Data
+library(survival)
+library(prodlim)
+library(riskRegression)
+library(DPWeibull)
+data(Paquid)
 
-#competing risks data with factor covariates
-library("DPWeibull")
-npts<-400
-x1<-rbinom(npts,1,0.5)
-x2<-rbinom(npts,1,0.5)
-x<-cbind(x1,x2)
-beta1<-c(-1,1)
-beta2<-c(2,-2)
-alphagen1<-2
-alphagen2<-0.7
-lambdagen1<-exp(-6)
-lambdagen2<-exp(-2)
-inverseweib<-function(u,alpha,lambda){
-  (-log(1-u)/lambda)^(1/alpha)
-}
-zbeta1<-x %*% beta1
-zbeta2<-x %*% beta2
-p<-0.8
-p1<-1-(1-p)^exp(zbeta1)
-u2<-runif(npts)
-G1<-1/p*(1-(1-u2*p1)^exp(-zbeta1))
-G2<-1-(1-u2)^exp(-zbeta2)
-t1<-inverseweib(G1,alphagen1,lambdagen1)
-t2<-inverseweib(G2,alphagen2,lambdagen2)
-u1<-runif(npts)
-c<-ifelse(u1<p1,1,2)
-t<-ifelse(c==1,t1,t2)
-cens<-runif(npts,0,200)
-event<-ifelse(t<cens,c,0)
-time<-ifelse(c==0,cens,t)
-x1<-ifelse(x1==1,"good","bad")
-x2<-ifelse(x2==1,"good","bad")
-x2pred<-factor(rep(c("good","bad"),times=2))
-x1pred<-factor(c("good","good","bad","bad"))
-xpred<-cbind(x1pred,x2pred)
-y<-cbind(time,event)
-data<-data.frame(y=y,x1=x1,x2=x2)
-result<-dpweib(y~factor(x1)+factor(x2),data,predtime=(1:50)*2)
-summary(result)
-par(mfrow=c(1,2))
-plot(result)
+Paquid<-Paquid[1:500,]
+DPresult1<-dpweib(Hist(time, status)~1,data=Paquid,
+                  predtime = seq(from=min(Paquid$time),to=max(Paquid$time),length=200))
+opar<-par(mfrow=c(1,3),
+          mar=c(3.1, 3.1, 3.1, 5.1),
+          mgp=c(2, 0.5, 0),
+          oma=c(0, 0, 0, 4))
+plot(DPresult1)
+par(opar)
 
-newresult<-predict(result,xpred)
-summary(newresult)
-par(mfrow=c(2,3))
-plot(newresult)
+DPresult2<-continue(DPresult1,simultaneous=TRUE)
+summary(DPresult2)
+
+DPresult3<-dpweib(Hist(time, status)~DSST+MMSE,data=Paquid,
+                  predtime = seq(from=min(Paquid$time),to=max(Paquid$time),length=200))
+summary(DPresult3)
+opar<-par(mfrow=c(1,2),
+          mar=c(3.1, 3.1, 3.1, 5.1),
+          mgp=c(2, 0.5, 0),
+          oma=c(0, 0, 0, 4))
+plot(DPresult3)
+par(opar)
+
+newdata<-NULL
+newdata$DSST<-Paquid$DSST[c(1,70)]
+newdata$MMSE<-Paquid$MMSE[c(2,87)]
+newdata<-data.frame(newdata)
+
+DPpredict<-predict(DPresult3,newdata)
+summary(DPpredict)
+opar<-par(mfrow=c(2,3),
+          mar=c(3.1, 3.1, 3.1, 5.1),
+          mgp=c(2, 0.5, 0),
+          oma=c(0, 0, 0, 4))
+plot(DPpredict)
+par(opar)
 
 ###############################################################
 
 # An example of interval censored data
+library(KMsurv)
+library(survival)
 library(DPWeibull)
-data(deterioration)
-attach(deterioration)
-y<-cbind(left,right)
-y<-cbind(left,right,rep(0,length(right)))
-y[,3]<-ifelse(right==-999,0,1)
-fitddp <- dpweib(y~trt)
+data("bcdeter")
 
-xnew<-matrix(c(0,1),nrow=2,ncol=1)
-grid<-seq(0.01,70,1)
-predddp<-predict(fitddp,xpred=xnew,tpred=grid)
-par(mfrow=c(2,3))
-plot(predddp)
-
+DPresult<-dpweib(Surv(lower, upper, type="interval2") ~ treat, data = bcdeter)
+summary(DPresult)
+plot(DPresult)
 }
 }
