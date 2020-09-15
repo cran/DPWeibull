@@ -1,4 +1,4 @@
-ec1c8f1958970f32db91f3bd56f219c6 *DESCRIPTION
+da22f16ea746337fb1ccd1eb0d0438ae *DESCRIPTION
 a251990ba2b033ecc6bdfe5e5f698730 *NAMESPACE
 3348f256cca4250ba2de5fbce2e9a819 *R/RcppExports.R
 56ffa68a3003aae455d30495a5bd2f8e *R/basic.R
@@ -10,8 +10,8 @@ f04b91462c487115bab42adb9776ddd3 *R/dpm.R
 fed73635d339a75ad660505d49d1cb2e *R/pred.R
 9545ad97fc1129d42a364ac2ca201b02 *R/reg.R
 4182ee835d499262565351cbf16b5dfd *R/summary.R
-69056d414f23a4f096dce0f03c2a149c *data/deterioration.rda
-454f8da3ff1889ffc63e84af53afdf0a *data/survmedian.rda
+137e9da9091027636bbbd33883cda3fd *data/deterioration.rda
+c8ae68e84fa8452f5213a23ab754f69a *data/survmedian.rda
 c740250ce704da2ab83fd45b74a39342 *man/continue.Rd
 4ab246588fbacdc1766bdc5d3c465980 *man/continue.ddp.Rd
 da23c99b3a6ee467cfadc5301a6f6879 *man/continue.ddpcomp.Rd
@@ -45,7 +45,7 @@ a0102112fd2973dc80f082741903aa34 *src/compnoreg.cpp
 0f1a3bbc6f1e8e4e567e93b16c12030c *src/compnoreg.h
 425f46ad0d0d287147ec7464e7b87842 *src/compnoreggilks.cpp
 24094bd50b05936b8d540bb7907d3233 *src/compnoreggilks.h
-17001ff0249e3a2379cdb11cc31171bd *src/compreg.cpp
+e35cb469c2e9a3eecb000d8c56ec8885 *src/compreg.cpp
 d1bd6e420ffb2aed02f7246c50a4c1d9 *src/compreg.h
 292b65b985aeebd545a3f11d758c2dd5 *src/compreggilks.cpp
 59b4a60a2999800ba751d0590cbe4a09 *src/compreggilks.h
@@ -53,7 +53,7 @@ d1bd6e420ffb2aed02f7246c50a4c1d9 *src/compreg.h
 74f772c46cea35ce6d4cca5f86c094b2 *src/noreg.h
 bc2608f9e4f211cf6eb7e6cc0e45fd8a *src/noreggilks.cpp
 a5859e116212dfe2fc470a29e7b5bf1e *src/noreggilks.h
-22138fabed8a9c80125aaab57ca6f16a *src/reg.cpp
+63bd16f866cc679ec4de455d667e194c *src/reg.cpp
 5829c917d39850f6fee5d4054bc294b5 *src/reg.h
 77e7e79d1b0b253621a0cab0c3f4f727 *src/reggilks.cpp
 bc05a1bc45868c9161fa21c637d2b7ad *src/reggilks.h

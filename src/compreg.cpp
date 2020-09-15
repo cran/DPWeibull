@@ -1,3 +1,4 @@
+#include <RcppArmadillo.h>
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -9,13 +10,15 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-#include <RcppArmadillo.h>
+
 using namespace Rcpp ;
 using namespace arma;
+
 #include "arms.h"
 #include "auxfuns.h"
 #include "commonfunc.h"
 #include "compreggilks.h"
+
 double compreg_loglikelihood(const double t, const int delta,
 const NumericVector x,
 const double lambda1, const double alpha1,

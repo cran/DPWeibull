@@ -1,12 +1,14 @@
+#include <RcppArmadillo.h>
 #include <iostream>
 #include <vector>
 #include <Rmath.h>
 #include <R.h>
 #include <algorithm>
 #include <math.h>
-#include <RcppArmadillo.h>
+
 using namespace Rcpp ;
 using namespace arma;
+
 #include "arms.h"
 #include "auxfuns.h"
 #include "commonfunc.h"
