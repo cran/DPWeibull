@@ -41,6 +41,8 @@ continuedpm<-function(previous,alpha= 0.05, simultaneous=FALSE,
 		lambda0, alpha00, alpha0, lambda00,
 		alphaalpha, alphalambda,
 		nu, ngrp, a, b, high.pct, tpred,addgroup, thin, emptybasket, allbaskets)
+	   result$d<-result$d/high.pct*10
+	   result$h<-result$h/high.pct*10
 	   result$Spred<-apply(result$S,2,median,na.rm=TRUE)
 	   result$Spredu<-apply(result$S,2,quantile,0.975,na.rm=TRUE)
 	   result$Spredl<-apply(result$S,2,quantile,0.025,na.rm=TRUE)
@@ -203,6 +205,10 @@ continuedpmcomp<-function(previous,alpha= 0.05, simultaneous=FALSE,
              a, b,
              high.pct,times,
              addgroup,thin,emptybasket, allbaskets)
+     result$d1<-result$d1/high.pct*10
+     result$h1<-result$h1/high.pct*10
+     result$d2<-result$d2/high.pct*10
+     result$h2<-result$h2/high.pct*10
 	   result$CIF1.est<-apply(result$CIF1,2,median,na.rm=TRUE)
 	   result$CIF1u<-apply(result$CIF1,2,quantile,0.975,na.rm=TRUE)
 	   result$CIF1l<-apply(result$CIF1,2,quantile,0.025,na.rm=TRUE)

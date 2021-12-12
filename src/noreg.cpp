@@ -190,7 +190,7 @@ List noreg(const int burnin, const int iteration,
 	//but the number of current clusters plus the emptybasket
 	IntegerVector allbaskets(1);
 	allbaskets[0]=1;
-        int nsave=iteration/thin;
+    int nsave=iteration/thin;
 	NumericMatrix alpharec(nsave,tl.size());
 	NumericMatrix lambdarec(nsave,tl.size());
 	NumericMatrix lambda0rec(nsave,tl.size());
@@ -238,10 +238,10 @@ List noreg(const int burnin, const int iteration,
 	 Named("d")=d,
 	 Named("h")=h,
 	 Named("ngrp")=ngrp,
-    	 Named("alpharec")=alpharec,
-         Named("lambda0rec")=lambda0rec,
-     	 Named("lambdascaled")=lambdarec,
-         Named("lambdarec")=lambdarec_orig,
+	 Named("alpharec")=alpharec,
+	 Named("lambda0rec")=lambda0rec,
+	 Named("lambdascaled")=lambdarec,
+	 Named("lambdarec")=lambdarec_orig,
 	 Named("emptybasket")=emptybasket,
 	 Named("allbaskets")=allbaskets);
 }
@@ -315,10 +315,10 @@ List noreg_resume(const int burnin, const int iteration,
 	 Named("d")=d,
 	 Named("h")=h,
 	 Named("ngrp")=ngrp,
-    	 Named("alpharec")=alpharec,
-         Named("lambda0rec")=lambda0rec,
-     	 Named("lambdascaled")=lambdarec,
-         Named("lambdarec")=lambdarec_orig,
+	 Named("alpharec")=alpharec,
+	 Named("lambda0rec")=lambda0rec,
+	 Named("lambdascaled")=lambdarec,
+	 Named("lambdarec")=lambdarec_orig,
 	 Named("emptybasket")=emptybasket,
 	 Named("allbaskets")=allbaskets);
 }

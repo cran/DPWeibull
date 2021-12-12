@@ -1,8 +1,8 @@
 Package: DPWeibull
 Type: Package
 Title: Dirichlet Process Weibull Mixture Model for Survival Data
-Version: 1.7
-Date: 2020-09-15
+Version: 1.8
+Date: 2021-12-10
 Author: Yushu Shi
 Maintainer: Yushu Shi <shiyushu2006@gmail.com>
 Depends: R (>= 3.5.0)
@@ -12,6 +12,6 @@ LinkingTo: Rcpp, RcppArmadillo
 Imports: truncdist, binaryLogic, prodlim, survival, Rcpp (>= 0.12.4)
 NeedsCompilation: yes
 RoxygenNote: 5.0.1
-Packaged: 2020-09-15 16:06:38 UTC; yushushi
+Packaged: 2021-12-10 21:37:52 UTC; ys8wp
 Repository: CRAN
-Date/Publication: 2020-09-15 22:50:03 UTC
+Date/Publication: 2021-12-12 21:10:02 UTC

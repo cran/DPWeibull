@@ -55,6 +55,10 @@ compdpm<-function(t,event,high.pct,times,
              a, b,
              high.pct,times,
              addgroup,thin)
+   result$d1<-result$d1/high.pct*10
+   result$h1<-result$h1/high.pct*10
+   result$d2<-result$d2/high.pct*10
+   result$h2<-result$h2/high.pct*10
    result$CIF1.est<-apply(result$CIF1,2,median,na.rm=TRUE)
    result$CIF1u<-apply(result$CIF1,2,quantile,0.975,na.rm=TRUE)
    result$CIF1l<-apply(result$CIF1,2,quantile,0.025,na.rm=TRUE)

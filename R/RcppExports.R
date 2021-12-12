@@ -135,8 +135,8 @@ thin=10, betasl=2.5, addgroup=2){
 	}
         if(simultaneous==TRUE){
         z$loghrbandl<-matrix(confband(alpha,z$loghr)[1,],byrow=TRUE,nrow=ncol(z$x))/z$xscale
-  	z$loghrbandu<-matrix(confband(alpha,z$loghr)[2,],byrow=TRUE,nrow=ncol(z$x))/z$xscale
-	}
+      	z$loghrbandu<-matrix(confband(alpha,z$loghr)[2,],byrow=TRUE,nrow=ncol(z$x))/z$xscale
+    	}
     }
    }
    z$usertime<-usertime

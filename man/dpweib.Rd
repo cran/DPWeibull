@@ -204,10 +204,9 @@ Neal,R.M (2000) Markov chain sampling methods for Dirichlet process mixture mode
 
 Kottas,A. (2006) Nonparametric Bayesian survival analysis using mixtures of Weibull distributions, \emph{Journal of Statistical Planning and Inference}, \bold{136}, Num 3, 578-596 doi: 10.1016/j.jspi.2004.08.009
 
-Shi, Y. Martens, M., Banerjee, A. and Laud, P. (2019) Low Information Omnibus (LIO) Priors for Dirichlet Process Mixture Models. \emph{Bayesian Anal.} \bold{14}, Num 3, 677-702. doi:10.1214/18-BA1119. https://projecteuclid.org/euclid.ba/1560240023
+Shi, Y. Martens, M., Banerjee, A. and Laud, P. (2019) Low Information Omnibus (LIO) Priors for Dirichlet Process Mixture Models. \emph{Bayesian Analysis} \bold{14}, Num 3, 677-702. doi:10.1214/18-BA1119. https://projecteuclid.org/euclid.ba/1560240023
 
-Shi,Y. and Laud,P. and Neuner,J (2019) A Dependent Dirichlet Process Model for Survival Data With
-Competing Risks (accepted by Lifetime Data Analysis)
+Shi,Y. and Laud,P. and Neuner,J (2021) A Dependent Dirichlet Process Model for Survival Data With Competing Risks \emph{Lifetime Data Analysis} \bold{27}, 156-176. https://doi.org/10.1007/s10985-020-09506-0
 
 }
 

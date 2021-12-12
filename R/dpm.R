@@ -38,6 +38,8 @@ dpm<-function(tl,tr,event,high.pct,tpred,
         lambda0, alpha00, alpha0, lambda00,
         alphaalpha, alphalambda,
         nu, ngrp, a, b, high.pct, tpred,addgroup, thin)
+   result$d<-result$d/high.pct*10
+   result$h<-result$h/high.pct*10
    result$Spred<-apply(result$S,2,median,na.rm=TRUE)
    result$Spredu<-apply(result$S,2,quantile,0.975,na.rm=TRUE)
    result$Spredl<-apply(result$S,2,quantile,0.025,na.rm=TRUE)

@@ -12,6 +12,14 @@ object$alpharec,object$lambdascaled,object$betarec,xpred,tpred,alpha)
 class(predobject)<-"predddp"
 predobject$tpred<-object$predtime
 predobject$alpha<-alpha
+predobject$d<-predobject$d/object$high.pct*10
+predobject$h<-predobject$h/object$high.pct*10
+predobject$dpred<-predobject$dpred/object$high.pct*10
+predobject$dpredl<-predobject$dpredl/object$high.pct*10
+predobject$dpredu<-predobject$dpredu/object$high.pct*10
+predobject$hpred<-predobject$hpred/object$high.pct*10
+predobject$hpredl<-predobject$hpredl/object$high.pct*10
+predobject$hpredu<-predobject$hpredu/object$high.pct*10
 predobject
 }
 
@@ -32,5 +40,13 @@ xpred,tpred,alpha)
 class(predobject)<-"predddpcomp"
 predobject$tpred<-object$predtime
 predobject$alpha<-alpha
+predobject$d<-predobject$d/object$high.pct*10
+predobject$h<-predobject$h/object$high.pct*10
+predobject$dpred<-predobject$dpred/object$high.pct*10
+predobject$dpredl<-predobject$dpredl/object$high.pct*10
+predobject$dpredu<-predobject$dpredu/object$high.pct*10
+predobject$hpred<-predobject$hpred/object$high.pct*10
+predobject$hpredl<-predobject$hpredl/object$high.pct*10
+predobject$hpredu<-predobject$hpredu/object$high.pct*10
 predobject
 }
